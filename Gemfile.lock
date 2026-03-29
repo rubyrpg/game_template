@@ -8,7 +8,7 @@ GEM
     matrix (0.4.3)
     native_audio (0.5.8)
     os (1.1.4)
-    ruby_rpg (0.1.8)
+    ruby_rpg (0.1.9)
       chunky_png (~> 1.4)
       concurrent-ruby
       fiddle

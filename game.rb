@@ -3,6 +3,9 @@ require_relative "components/camera_controller"
 require_relative "scenery"
 
 Engine.start do
+  Rendering::PostProcessingEffect.add(
+    Rendering::PostProcessingEffect.ssao
+  )
   Engine::GameObject.create(
     name: "Camera",
     pos: Vector[0, 1, 0],
@@ -23,4 +26,18 @@ Engine.start do
     pos: Vector[3, 0.5, -10],
     material: cube_material
   )
+
+  stairs_material = Engine::Material.create(shader: Engine::Shader.default)
+  stairs_material.set_vec3("baseColour", Vector[1, 1, 1])
+  stairs_material.set_texture("image", Engine::Texture.for("assets/models/Textures/colormap.png"))
+
+  Engine::GameObject.create(
+    name: "Stairs",
+    pos: Vector[-3, 0, -10],
+    components: [
+      Engine::Components::MeshRenderer.create(
+        mesh: Engine::Mesh.for("assets/models/stairs"),
+        material: stairs_material
+      )
+    ])
 end

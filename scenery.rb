@@ -2,7 +2,7 @@
 
 def create_scenery
   Rendering::RenderPipeline.set_skybox_colors(
-    ground: Vector[1, 1, 1],
+    ground: Vector[0.2, 0.4, 0.8],
     horizon: Vector[0.7, 0.8, 0.9],
     sky: Vector[0.3, 0.5, 0.8]
   )
@@ -17,8 +17,7 @@ def create_scenery
     ])
 
   ground_material = Engine::Material.create(shader: Engine::Shader.default)
-  ground_material.set_vec3("baseColour", Vector[1, 1, 1])
-  ground_material.set_texture("image", Engine::Texture.for("assets/tiles_color.png"))
+  ground_material.set_vec3("baseColour", Vector[0.2, 0.4, 0.8])
   ground_material.set_texture("normalMap", Engine::Texture.for("assets/tiles_normal.png"))
   ground_material.set_float("specularStrength", 0.9)
   ground_material.set_float("specularPower", 64.0)
