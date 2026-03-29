@@ -108,4 +108,26 @@ module Props
     place("coin", Vector[bx + 1, 0.5, bz - 1], components: [BobAndSpin.create])
   end
 
+  def self.create_bloom_spheres
+    hdr_colours = [
+      Vector[1.0, 0.085, 0.085],  # red
+      Vector[0.085, 1.0, 0.085],  # green
+      Vector[0.085, 0.085, 1.0],  # blue
+      Vector[1.0, 0.85, 0.085],   # amber
+      Vector[1.0, 0.085, 0.85],   # pink
+      Vector[0.085, 0.85, 1.0],   # cyan
+      Vector[1.0, 1.0, 1.0],    # white
+    ]
+    hdr_colours.each_with_index do |colour, i|
+      brightness = 4.5
+      mat = Engine::Material.create(shader: Engine::Shader.colour)
+      mat.set_vec3("colour", colour * brightness)
+      mat.set_float("roughness", 1.0)
+
+      Engine::StandardObjects::Sphere.create(
+        pos: Vector[-13, 2, -8 + i * 3],
+        material: mat
+      )
+    end
+  end
 end
