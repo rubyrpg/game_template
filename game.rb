@@ -75,14 +75,19 @@ Engine.start do
 
   prop("flag", Vector[0, 1, 0], colormap)
 
-  # Centre piece
+  # Open area props
   Engine::StandardObjects::Sphere.create(pos: Vector[0, 0.5, -5])
-  prop("crate-color", Vector[2, 0, -7], colormap)
-  prop("crate-color", Vector[2.5, 0, -7.5], colormap, rotation: Vector[0, 30, 0])
-  prop("crate-color", Vector[2.2, 1, -7.2], colormap, rotation: Vector[0, 15, 0])
-  prop("vehicle", Vector[-8, 0, -8], colormap, rotation: Vector[0, 45, 0])
-  prop("coin", Vector[0, 1, -8], colormap)
-  prop("weapon-sword", Vector[4, 0.5, -7], colormap, rotation: Vector[0, 0, -45])
+  prop("coin", Vector[5, 1, -5], colormap)
+  prop("weapon-sword", Vector[-5, 0.5, -5], colormap, rotation: Vector[0, 0, -45])
+
+  # Under the lights (x = -10, -5, 0, 5, 10 at z = -13.5)
+  prop("vehicle", Vector[-10, 0, -13.5], colormap, rotation: Vector[0, 45, 0])
+  prop("crate-color", Vector[-5, 0, -13.5], colormap)
+  prop("crate-color", Vector[-4.5, 0, -13], colormap, rotation: Vector[0, 30, 0])
+  prop("crate-color", Vector[-4.8, 1, -13.2], colormap, rotation: Vector[0, 15, 0])
+  prop("animal-dog", Vector[-0.5, 0, -13.5], colormap, rotation: Vector[0, -30, 0])
+  prop("animal-horse", Vector[1, 0, -13.5], colormap, rotation: Vector[0, 60, 0])
+  prop("weapon-sword", Vector[5, 0.5, -13.5], colormap, rotation: Vector[0, 0, -45])
 
   # Roofed strip at the back
   Engine::StandardObjects::Cube.create(
@@ -91,25 +96,33 @@ Engine.start do
     material: wall_material
   )
 
-  # Spot light pointing down
-  Engine::GameObject.create(
-    name: "Spot Light",
-    pos: Vector[0, 3.8, -13.5],
-    rotation: Vector[-90, 0, 0],
-    components: [
-      Engine::Components::SpotLight.create(
-        range: 20,
-        colour: Vector[1.0, 0.9, 0.7],
-        inner_angle: 25,
-        outer_angle: 40
-      )
-    ])
+  # Spotlights along the roofed strip
+  spot_colours = [
+    Vector[1.0, 0.3, 0.3],  # red
+    Vector[0.3, 1.0, 0.3],  # green
+    Vector[0.3, 0.3, 1.0],  # blue
+    Vector[1.0, 1.0, 0.3],  # yellow
+    Vector[1.0, 0.3, 1.0],  # magenta
+  ]
+  spot_colours.each_with_index do |colour, i|
+    x = -10 + i * 5
+    Engine::GameObject.create(
+      name: "Spot Light #{i}",
+      pos: Vector[x, 3.8, -13.5],
+      rotation: Vector[-90, 0, 0],
+      components: [
+        Engine::Components::SpotLight.create(
+          range: 15,
+          colour: colour,
+          inner_angle: 15,
+          outer_angle: 30,
+          cast_shadows: true
+        )
+      ])
+  end
 
-  # Animals
-  prop("animal-dog", Vector[3, 0, -3], colormap, rotation: Vector[0, -30, 0])
-  prop("animal-horse", Vector[-10, 0, -10], colormap, rotation: Vector[0, 60, 0])
+  # Under magenta light
+  prop("shape-cylinder", Vector[10, 0, -13.5], colormap, scale: Vector[1.5, 0.3, 1.5])
+  prop("figurine", Vector[10, 0.3, -13.5], colormap)
 
-  # Figurine on a pedestal
-  prop("shape-cylinder", Vector[7, 0, -10], colormap, scale: Vector[1.5, 0.3, 1.5])
-  prop("figurine", Vector[7, 0.3, -10], colormap)
 end

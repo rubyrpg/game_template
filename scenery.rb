@@ -13,6 +13,7 @@ def create_scenery
     components: [
       Engine::Components::DirectionLight.create(
         colour: Vector[1.4, 1.4, 1.2],
+        cast_shadows: true
       )
     ])
 
