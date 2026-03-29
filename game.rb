@@ -1,6 +1,7 @@
 require "ruby_rpg"
 require_relative "components/camera_controller"
 require_relative "components/bob_and_spin"
+
 require_relative "scenery"
 require_relative "props"
 
