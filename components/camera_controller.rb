@@ -2,7 +2,7 @@
 
 class CameraController < Engine::Component
   ROTATION_SPEED = 60
-  MOVE_SPEED = 10
+  MOVE_SPEED = 5
   MAX_PITCH = 89
 
   def start
