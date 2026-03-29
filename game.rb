@@ -76,7 +76,6 @@ Engine.start do
   prop("flag", Vector[0, 1, 0], colormap)
 
   # Open area props
-  Engine::StandardObjects::Sphere.create(pos: Vector[0, 0.5, -5])
   prop("coin", Vector[5, 1, -5], colormap)
   prop("weapon-sword", Vector[-5, 0.5, -5], colormap, rotation: Vector[0, 0, -45])
 
@@ -124,6 +123,17 @@ Engine.start do
   # Under magenta light
   prop("shape-cylinder", Vector[10, 0, -13.5], colormap, scale: Vector[1.5, 0.3, 1.5])
   prop("figurine", Vector[10, 0.3, -13.5], colormap)
+
+  # Shapes gallery along front wall
+  prop("shape-cube", Vector[-10, 0, 13], colormap)
+  prop("shape-cube-half", Vector[-7, 0, 13], colormap)
+  prop("shape-cube-rounded", Vector[-4, 0, 13], colormap)
+  prop("shape-cylinder", Vector[-1, 0, 13], colormap)
+  prop("shape-hexagon", Vector[2, 0, 13], colormap)
+  prop("shape-slope", Vector[5, 0, 13], colormap)
+  prop("shape-triangular-prism", Vector[8, 0, 13], colormap)
+  prop("shape-hollow-cylinder", Vector[11, 0, 13], colormap)
+  prop("shape-hollow-hexagon", Vector[-13, 0, 13], colormap)
 
   # Small building (front-right corner)
   bx, bz = 9, 9
