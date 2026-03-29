@@ -125,4 +125,18 @@ Engine.start do
   prop("shape-cylinder", Vector[10, 0, -13.5], colormap, scale: Vector[1.5, 0.3, 1.5])
   prop("figurine", Vector[10, 0.3, -13.5], colormap)
 
+  # Small building (front-right corner)
+  bx, bz = 9, 9
+
+  # L-shaped wall
+  prop("wall", Vector[bx, 0, bz + 0.4], colormap, rotation: Vector[0, -90, 0])
+  prop("wall-window-medium", Vector[bx + 1, 0, bz + 0.4], colormap, rotation: Vector[0, -90, 0])
+  prop("wall-corner", Vector[bx + 2, 0, bz], colormap, rotation: Vector[0, 90, 0])
+  prop("wall", Vector[bx + 2.4, 0, bz - 1], colormap)
+  prop("wall-doorway", Vector[bx + 2.4, 0, bz - 2], colormap)
+
+  # Furniture
+  prop("crate-color", Vector[bx + 0.3, 0, bz], colormap, rotation: Vector[0, 20, 0])
+  prop("pipe", Vector[bx + 1.8, 0, bz + 0.2], colormap)
+  prop("lever-single", Vector[bx + 2, 0, bz - 1.5], colormap)
 end

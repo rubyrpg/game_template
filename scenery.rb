@@ -9,11 +9,12 @@ def create_scenery
 
   Engine::GameObject.create(
     name: "Direction Light",
-    rotation: Vector[-45, 180, 30],
+    rotation: Vector[-45, -40, 0],
     components: [
       Engine::Components::DirectionLight.create(
         colour: Vector[1.4, 1.4, 1.2],
-        cast_shadows: true
+        cast_shadows: true,
+        shadow_distance: 30.0
       )
     ])
 
