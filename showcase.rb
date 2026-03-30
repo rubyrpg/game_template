@@ -2,8 +2,8 @@ require "ruby_rpg"
 require_relative "components/camera_controller"
 require_relative "components/bob_and_spin"
 
-require_relative "scenery"
-require_relative "props"
+require_relative "showcase/scenery"
+require_relative "showcase/props"
 
 AMBIENT_STRENGTH = 0.75
 

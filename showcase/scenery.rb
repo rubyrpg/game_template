@@ -35,7 +35,7 @@ module Scenery
 
     ground_material = Engine::Material.create(shader: Engine::Shader.default)
     ground_material.set_vec3("baseColour", Vector[0.1, 0.1, 0.3])
-    ground_material.set_texture("normalMap", Engine::Texture.for("assets/tiles_normal.png"))
+    ground_material.set_texture("normalMap", Engine::Texture.for("assets/textures/tiles_normal.png"))
     ground_material.set_float("specularStrength", 0.9)
     ground_material.set_float("specularPower", 64.0)
     ground_material.set_float("roughness", 0.7)
