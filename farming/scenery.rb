@@ -48,6 +48,17 @@ module Farming
       end
     end
 
+    def self.crop_mat
+      @crop_mat ||= begin
+        mat = Engine::Material.create(shader: Engine::Shader.vertex_lit)
+        mat.set_float("roughness", 0.8)
+        mat.set_float("diffuseStrength", 0.5)
+        mat.set_float("specularStrength", 0.3)
+        mat.set_float("specularPower", 32.0)
+        mat
+      end
+    end
+
     def self.place(name, pos, rotation: Vector[0, 0, 0], scale: Vector[1, 1, 1], material: nature_mat)
       Engine::GameObject.create(
         name: name,
@@ -146,7 +157,7 @@ module Farming
       # Field 1 (NW) - Wheat
       (-4..-1).each do |x|
         (-4..-1).each do |z|
-          place("crops_wheatStageB", Vector[x, 0.05, z], material: field_mat)
+          place("crops_wheatStageB", Vector[x, -0.05, z], material: crop_mat)
         end
       end
 
@@ -154,7 +165,7 @@ module Farming
       corn_stages = %w[crops_cornStageA crops_cornStageB crops_cornStageC crops_cornStageD]
       (1..4).each do |x|
         (-4..-1).each_with_index do |z, i|
-          place(corn_stages[i], Vector[x, 0.05, z], material: field_mat)
+          place(corn_stages[i], Vector[x, -0.05, z], material: crop_mat)
         end
       end
 
@@ -162,7 +173,7 @@ module Farming
       (-4..-1).each do |x|
         (1..4).each do |z|
           crop = (x + z).even? ? "crop_carrot" : "crop_turnip"
-          place(crop, Vector[x, 0.05, z], material: field_mat)
+          place(crop, Vector[x, -0.05, z], material: crop_mat)
         end
       end
 
@@ -170,7 +181,7 @@ module Farming
       (1..4).each do |x|
         (1..4).each do |z|
           crop = (x + z).even? ? "crop_pumpkin" : "crop_melon"
-          place(crop, Vector[x, 0.05, z], material: field_mat)
+          place(crop, Vector[x, -0.05, z], material: crop_mat)
         end
       end
     end
