@@ -13,6 +13,18 @@ module Farming
       end
     end
 
+    def self.vehicle_mat
+      @vehicle_mat ||= begin
+        mat = Engine::Material.create(shader: Engine::Shader.default)
+        mat.set_vec3("baseColour", Vector[1, 1, 1])
+        mat.set_texture("image", Engine::Texture.for("assets/textures/car-colormap.png"))
+        mat.set_float("ambientStrength", 0.5)
+        mat.set_float("specularStrength", 0.3)
+        mat.set_float("roughness", 0.8)
+        mat
+      end
+    end
+
     def self.field_mat
       @field_mat ||= begin
         mat = Engine::Material.create(shader: Engine::Shader.vertex_lit)
@@ -154,19 +166,67 @@ module Farming
     def self.create_decorations
       # Trees around the edges
       trees = %w[tree_oak tree_default tree_detailed tree_fat tree_simple]
-      [[-6, -6], [-6, 0], [-6, 5], [5, -6], [5, 0], [5, 5], [0, -6], [3, 5]].each_with_index do |(x, z), i|
+      [[-7, -7], [-7, 0], [-7, 6], [7, -7], [7, 0], [7, 6], [0, -7], [3, 7]].each_with_index do |(x, z), i|
         place(trees[i % trees.length], Vector[x, 0, z])
       end
 
       # Fences along the farm perimeter
-      (-5..4).each do |x|
-        place("fence_simple", Vector[x, 0, -5])
-        place("fence_simple", Vector[x, 0, 6])
+      # Fence mesh sits at +Z edge of cell; rotated 90° sits at +X edge
+      # # Front and back rows (full length)
+      # (-6..5).each do |x|
+      #   place("fence_simple", Vector[x, 0, 5])    # front
+      #   place("fence_simple", Vector[x, 0, -6])   # back
+      # end
+      # # Side fences (skip corner cells where front/back already are)
+      # (-5..4).each do |z|
+      #   place("fence_simple", Vector[-5, 0, z], rotation: Vector[0, 90, 0])  # left
+      #   place("fence_simple", Vector[6, 0, z], rotation: Vector[0, 90, 0])   # right
+      # end
+      # Front (south) fence between corners
+      (-4..4).each do |x|
+        place("fence_simple", Vector[x, 0, 5])
       end
-      (-5..5).each do |z|
+
+      # East fence between corners
+      (-4..4).each do |z|
+        place("fence_simple", Vector[5, 0, z], rotation: Vector[0, -90, 0])
+      end
+
+      # North fence between corners
+      (-4..4).each do |x|
+        place("fence_simple", Vector[x, 0, -5], rotation: Vector[0, 180, 0])
+      end
+
+      # West fence between corners
+      (-4..4).each do |z|
         place("fence_simple", Vector[-5, 0, z], rotation: Vector[0, 90, 0])
-        place("fence_simple", Vector[5, 0, z], rotation: Vector[0, 90, 0])
       end
+
+      # Corner pieces
+      place("fence_corner", Vector[-5, 0, 5])                                  # front-left
+      place("fence_corner", Vector[5, 0, 5], rotation: Vector[0, -90, 0])     # front-right
+      place("fence_corner", Vector[-5, 0, -5], rotation: Vector[0, 90, 0])    # back-left
+      place("fence_corner", Vector[5, 0, -5], rotation: Vector[0, 180, 0])    # back-right
+
+      # Tractor parked by the fields
+      Engine::GameObject.create(
+        name: "tractor",
+        pos: Vector[-7, 0, 3],
+        rotation: Vector[0, 45, 0],
+        components: [
+          Engine::Components::MeshRenderer.create(
+            mesh: Engine::Mesh.for("assets/vehicles-kit/tractor"),
+            material: vehicle_mat
+          )
+        ])
+
+      # Farm props
+      place("log_stack", Vector[6, 0, -3])
+      place("pot_large", Vector[6, 0, 4])
+      place("pot_small", Vector[6.5, 0, 3.5])
+      place("sign", Vector[-3, 0, 6], rotation: Vector[0, 180, 0])
+      place("stump_round", Vector[7, 0, 0])
+      place("campfire_stones", Vector[7, 0, -6])
     end
   end
 end
