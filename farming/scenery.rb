@@ -39,10 +39,10 @@ module Farming
 
       Engine::GameObject.create(
         name: "Sun",
-        rotation: Vector[-50, -30, 0],
+        rotation: Vector[-50, 150, 0],
         components: [
           Engine::Components::DirectionLight.create(
-            colour: Vector[1.4, 1.3, 1.0],
+            colour: Vector[1.3, 1.25, 0.95],
             cast_shadows: true,
             shadow_distance: 30.0
           )
@@ -55,9 +55,9 @@ module Farming
     end
 
     def self.create_ground
-      # Grass base: 14x14 grid centered on origin
-      (-7..6).each do |x|
-        (-7..6).each do |z|
+      # Grass base: 24x24 grid centered on origin
+      (-12..11).each do |x|
+        (-12..11).each do |z|
           place("ground_grass", Vector[x, 0, z])
         end
       end
