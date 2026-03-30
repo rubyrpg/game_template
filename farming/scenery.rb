@@ -13,7 +13,18 @@ module Farming
       end
     end
 
-    def self.place(name, pos, rotation: Vector[0, 0, 0], scale: Vector[1, 1, 1])
+    def self.field_mat
+      @field_mat ||= begin
+        mat = Engine::Material.create(shader: Engine::Shader.vertex_lit)
+        mat.set_float("roughness", 0.15)
+        mat.set_float("diffuseStrength", 0.5)
+        mat.set_float("specularStrength", 2.0)
+        mat.set_float("specularPower", 16.0)
+        mat
+      end
+    end
+
+    def self.place(name, pos, rotation: Vector[0, 0, 0], scale: Vector[1, 1, 1], material: nature_mat)
       Engine::GameObject.create(
         name: name,
         pos: pos,
@@ -22,7 +33,7 @@ module Farming
         components: [
           Engine::Components::MeshRenderer.create(
             mesh: Engine::Mesh.for("assets/nature/#{name}"),
-            material: nature_mat
+            material: material
           )
         ])
     end
@@ -87,7 +98,7 @@ module Farming
       field_positions.each do |field|
         4.times do |dx|
           4.times do |dz|
-            place("crops_dirtDoubleRow", Vector[field[:ox] + dx, 0.001, field[:oz] + dz])
+            place("crops_dirtDoubleRow", Vector[field[:ox] + dx, 0.001, field[:oz] + dz], material: field_mat)
           end
         end
       end
@@ -111,7 +122,7 @@ module Farming
       # Field 1 (NW) - Wheat
       (-4..-1).each do |x|
         (-4..-1).each do |z|
-          place("crops_wheatStageB", Vector[x, 0.05, z])
+          place("crops_wheatStageB", Vector[x, 0.05, z], material: field_mat)
         end
       end
 
@@ -119,7 +130,7 @@ module Farming
       corn_stages = %w[crops_cornStageA crops_cornStageB crops_cornStageC crops_cornStageD]
       (1..4).each do |x|
         (-4..-1).each_with_index do |z, i|
-          place(corn_stages[i], Vector[x, 0.05, z])
+          place(corn_stages[i], Vector[x, 0.05, z], material: field_mat)
         end
       end
 
@@ -127,7 +138,7 @@ module Farming
       (-4..-1).each do |x|
         (1..4).each do |z|
           crop = (x + z).even? ? "crop_carrot" : "crop_turnip"
-          place(crop, Vector[x, 0.05, z])
+          place(crop, Vector[x, 0.05, z], material: field_mat)
         end
       end
 
@@ -135,7 +146,7 @@ module Farming
       (1..4).each do |x|
         (1..4).each do |z|
           crop = (x + z).even? ? "crop_pumpkin" : "crop_melon"
-          place(crop, Vector[x, 0.05, z])
+          place(crop, Vector[x, 0.05, z], material: field_mat)
         end
       end
     end
@@ -143,7 +154,7 @@ module Farming
     def self.create_decorations
       # Trees around the edges
       trees = %w[tree_oak tree_default tree_detailed tree_fat tree_simple]
-      [[-6, -6], [-6, 0], [-6, 5], [5, -6], [5, 0], [5, 5], [0, -6], [0, 5]].each_with_index do |(x, z), i|
+      [[-6, -6], [-6, 0], [-6, 5], [5, -6], [5, 0], [5, 5], [0, -6], [3, 5]].each_with_index do |(x, z), i|
         place(trees[i % trees.length], Vector[x, 0, z])
       end
 

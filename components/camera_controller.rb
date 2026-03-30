@@ -7,8 +7,9 @@ class CameraController < Engine::Component
 
   def start
     Engine::Cursor.disable
-    @pitch = 0.0
-    @yaw = 0.0
+    euler = game_object.rotation.to_euler
+    @pitch = euler[0]
+    @yaw = euler[1]
   end
 
   def update(delta_time)
