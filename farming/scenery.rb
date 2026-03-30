@@ -25,6 +25,18 @@ module Farming
       end
     end
 
+    def self.prototype_mat
+      @prototype_mat ||= begin
+        mat = Engine::Material.create(shader: Engine::Shader.default)
+        mat.set_vec3("baseColour", Vector[1, 1, 1])
+        mat.set_texture("image", Engine::Texture.for("assets/textures/colormap.png"))
+        mat.set_float("ambientStrength", 0.5)
+        mat.set_float("specularStrength", 0.1)
+        mat.set_float("roughness", 1.0)
+        mat
+      end
+    end
+
     def self.field_mat
       @field_mat ||= begin
         mat = Engine::Material.create(shader: Engine::Shader.vertex_lit)
@@ -164,10 +176,55 @@ module Farming
     end
 
     def self.create_decorations
-      # Trees around the edges
+      # Trees near the farm
       trees = %w[tree_oak tree_default tree_detailed tree_fat tree_simple]
       [[-7, -7], [-7, 0], [-7, 6], [7, -7], [7, 0], [7, 6], [0, -7], [3, 7]].each_with_index do |(x, z), i|
         place(trees[i % trees.length], Vector[x, 0, z])
+      end
+
+      # Tree line around the perimeter to break up the skyline
+      treeline = [
+        # North side
+        ["tree_oak",      -8.7, -9.3], ["tree_simple",   -8.1, -10.1], ["tree_tall",    -7.1, -8.8],
+        ["tree_cone",     -6.5, -9.7], ["tree_detailed", -5.8, -9.5],  ["tree_thin",    -5.0, -10.2],
+        ["tree_cone",     -4.2, -8.7], ["tree_default",  -3.6, -9.8],  ["tree_fat",     -2.9, -9.4],
+        ["tree_oak",      -2.1, -10.0],["tree_simple",   -1.3, -8.9],  ["tree_tall",    -0.5, -9.7],
+        ["tree_thin",      0.4, -9.6], ["tree_detailed",  1.1, -10.3], ["tree_oak",      1.7, -8.8],
+        ["tree_fat",       2.5, -9.9], ["tree_default",   3.2, -9.2],  ["tree_cone",     3.9, -10.1],
+        ["tree_fat",       4.6, -8.6], ["tree_simple",    5.3, -9.8],  ["tree_tall",     5.9, -9.4],
+        ["tree_thin",      6.5, -10.0],["tree_detailed",  7.1, -9.0],  ["tree_oak",      7.8, -9.6],
+        ["tree_cone",      8.3, -8.7], ["tree_default",   8.9, -9.5],
+        # South side
+        ["tree_default",  -8.4,  9.1], ["tree_oak",      -7.8,  9.8], ["tree_thin",    -7.2,  9.6],
+        ["tree_fat",      -6.4, 10.1], ["tree_oak",      -5.5,  8.8], ["tree_cone",    -4.8,  9.5],
+        ["tree_tall",     -4.1,  9.3], ["tree_detailed", -3.3, 10.0], ["tree_fat",     -2.6,  9.7],
+        ["tree_simple",   -1.9,  8.9], ["tree_detailed", -1.2,  8.9], ["tree_tall",    -0.4,  9.8],
+        ["tree_simple",    0.3,  9.4], ["tree_thin",      0.9, 10.2], ["tree_cone",     1.8,  9.0],
+        ["tree_default",   2.6,  9.7], ["tree_oak",       3.4,  9.5], ["tree_fat",      4.1, 10.1],
+        ["tree_thin",      4.7,  8.7], ["tree_tall",      5.4,  9.6], ["tree_default",  6.1,  9.2],
+        ["tree_cone",      6.8, 10.0], ["tree_fat",       7.5,  9.6], ["tree_simple",   8.1,  8.8],
+        ["tree_tall",      8.6,  8.9], ["tree_oak",       9.2,  9.5],
+        # West side
+        ["tree_detailed", -9.4, -7.3], ["tree_fat",     -10.1, -6.5], ["tree_simple",  -8.8, -5.6],
+        ["tree_tall",     -9.7, -4.8], ["tree_oak",      -9.6, -3.9], ["tree_thin",   -10.2, -3.1],
+        ["tree_cone",     -8.7, -2.1], ["tree_default",  -9.5, -1.3], ["tree_tall",    -9.3, -0.4],
+        ["tree_oak",     -10.0,  0.4], ["tree_fat",      -8.9,  1.3], ["tree_detailed",-9.8,  2.0],
+        ["tree_thin",     -9.5,  2.8], ["tree_cone",     -8.7,  3.6], ["tree_default", -8.6,  4.5],
+        ["tree_simple",   -9.4,  5.3], ["tree_oak",      -9.2,  6.1], ["tree_tall",   -10.1,  6.8],
+        ["tree_detailed", -8.8,  7.6], ["tree_fat",      -9.6,  8.3],
+        # East side
+        ["tree_fat",       9.3, -7.5], ["tree_cone",     10.0, -6.7], ["tree_oak",      8.7, -5.8],
+        ["tree_simple",    9.6, -5.0], ["tree_tall",      9.5, -4.1], ["tree_default", 10.2, -3.3],
+        ["tree_simple",    8.9, -2.3], ["tree_thin",      9.7, -1.5], ["tree_cone",     9.2, -0.6],
+        ["tree_oak",      10.0,  0.2], ["tree_detailed",  9.6,  1.1], ["tree_fat",      8.8,  1.9],
+        ["tree_default",   8.8,  2.7], ["tree_tall",      9.5,  3.5], ["tree_thin",     9.4,  4.4],
+        ["tree_cone",     10.1,  5.2], ["tree_fat",       8.6,  6.0], ["tree_simple",   9.3,  6.7],
+        ["tree_oak",       9.1,  7.4], ["tree_detailed", 10.0,  8.1],
+      ]
+      scales = [0.8, 1.0, 1.2, 0.9, 1.1, 0.7, 1.3, 1.0, 0.85, 1.15, 0.75, 1.25, 0.95, 1.05]
+      treeline.each_with_index do |(type, x, z), i|
+        s = scales[i % scales.length]
+        place(type, Vector[x, 0, z], scale: Vector[s, s, s])
       end
 
       # Fences along the farm perimeter
@@ -227,6 +284,25 @@ module Farming
       place("sign", Vector[-3, 0, 6], rotation: Vector[0, 180, 0])
       place("stump_round", Vector[7, 0, 0])
       place("campfire_stones", Vector[7, 0, -6])
+
+      # Animals
+      place_animal("animal-horse", Vector[-7, 0, -2], rotation: Vector[0, 60, 0])
+      place_animal("animal-dog", Vector[7, 0, 2], rotation: Vector[0, -45, 0])
+      place_animal("animal-bison", Vector[-7, 0, -5], rotation: Vector[0, 30, 0])
+      place_animal("animal-horse", Vector[7, 0, -4], rotation: Vector[0, -90, 0])
+    end
+
+    def self.place_animal(name, pos, rotation: Vector[0, 0, 0])
+      Engine::GameObject.create(
+        name: name,
+        pos: pos,
+        rotation: rotation,
+        components: [
+          Engine::Components::MeshRenderer.create(
+            mesh: Engine::Mesh.for("assets/animals/#{name}"),
+            material: prototype_mat
+          )
+        ])
     end
   end
 end
