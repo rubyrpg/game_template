@@ -17,6 +17,8 @@ module SimonSays
     }
 
     def self.create
+      Engine::Cursor.enable
+
       Rendering::RenderPipeline.set_skybox_colors(
         ground: Vector[0.05, 0.05, 0.1],
         horizon: Vector[0.1, 0.1, 0.15],
@@ -36,14 +38,35 @@ module SimonSays
           )
         ])
 
+      Engine::GameObject.create(
+        name: "ScoreText",
+        components: [
+          Engine::Components::UI::Rect.create(
+            left_offset: 20,
+            top_offset: 20,
+            right_ratio: 1.0,
+            bottom_ratio: 1.0,
+            right_offset: -200,
+            bottom_offset: -120
+          ),
+          Engine::Components::UI::FontRenderer.create(
+            font: Engine::Font.press_start_2p,
+            string: "Score: 0"
+          )
+        ]
+      )
+
       COLOURS.each do |name, colour|
         mat = Engine::Material.create(shader: Engine::Shader.colour)
-        mat.set_vec3("colour", colour * 3.0)
+        mat.set_vec3("colour", colour * ClickableSphere::DIM_MULTIPLIER)
         mat.set_float("roughness", 1.0)
 
         Engine::StandardObjects::Sphere.create(
           pos: POSITIONS[name],
-          material: mat
+          material: mat,
+          components: [
+            ClickableSphere.create(colour: colour, material: mat)
+          ]
         )
 
         Engine::GameObject.create(
