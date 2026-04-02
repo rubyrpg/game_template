@@ -1,20 +1,14 @@
 module Farming
   module Scenery
-    def self.place(name, pos, rotation: Vector[0, 0, 0], scale: Vector[1, 1, 1], material: nature_mat)
-      Engine::GameObject.create(
-        name: name,
-        pos: pos,
-        rotation: rotation,
-        scale: scale,
-        components: [
-          Engine::Components::MeshRenderer.create(
-            mesh: Engine::Mesh.for("assets/nature/#{name}"),
-            material: material
-          )
-        ])
+    def self.create
+      create_sun
+      create_ground
+      create_fields
+      create_crops
+      create_decorations
     end
 
-    def self.create
+    def self.create_sun
       Engine::GameObject.create(
         name: "Sun",
         rotation: Vector[-50, 150, 0],
@@ -25,11 +19,6 @@ module Farming
             shadow_distance: 30.0
           )
         ])
-
-      create_ground
-      create_fields
-      create_crops
-      create_decorations
     end
 
     def self.create_ground
@@ -42,19 +31,6 @@ module Farming
     end
 
     def self.create_fields
-      # 4 fields in a 2x2 layout, each 4x4 dirt tiles
-      # with a 1-tile path gap between them
-      #
-      #   field1 (NW)    field2 (NE)
-      #        path (cross + straight)
-      #   field3 (SW)    field4 (SE)
-      #
-      # Fields centered around origin:
-      #   NW: x=-4..-1, z=-4..-1
-      #   NE: x= 1.. 4, z=-4..-1
-      #   SW: x=-4..-1, z= 1.. 4
-      #   SE: x= 1.. 4, z= 1.. 4
-
       field_positions = [
         { ox: -4, oz: -4 },  # NW (far left, far back)
         { ox:  1, oz: -4 },  # NE (far right, far back)
@@ -171,17 +147,6 @@ module Farming
       end
 
       # Fences along the farm perimeter
-      # Fence mesh sits at +Z edge of cell; rotated 90° sits at +X edge
-      # # Front and back rows (full length)
-      # (-6..5).each do |x|
-      #   place("fence_simple", Vector[x, 0, 5])    # front
-      #   place("fence_simple", Vector[x, 0, -6])   # back
-      # end
-      # # Side fences (skip corner cells where front/back already are)
-      # (-5..4).each do |z|
-      #   place("fence_simple", Vector[-5, 0, z], rotation: Vector[0, 90, 0])  # left
-      #   place("fence_simple", Vector[6, 0, z], rotation: Vector[0, 90, 0])   # right
-      # end
       # Front (south) fence between corners
       (-4..4).each do |x|
         place("fence_simple", Vector[x, 0, 5])
@@ -244,6 +209,22 @@ module Farming
           Engine::Components::MeshRenderer.create(
             mesh: Engine::Mesh.for("assets/animals/#{name}"),
             material: prototype_mat
+          )
+        ])
+    end
+
+    # -- Helpers --
+
+    def self.place(name, pos, rotation: Vector[0, 0, 0], scale: Vector[1, 1, 1], material: nature_mat)
+      Engine::GameObject.create(
+        name: name,
+        pos: pos,
+        rotation: rotation,
+        scale: scale,
+        components: [
+          Engine::Components::MeshRenderer.create(
+            mesh: Engine::Mesh.for("assets/nature/#{name}"),
+            material: material
           )
         ])
     end
