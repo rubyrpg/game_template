@@ -4,7 +4,6 @@ class CameraController < Engine::Component
   MAX_PITCH = 89
 
   def start
-    Engine::Cursor.disable
     euler = game_object.rotation.to_euler
     @pitch = euler[0]
     @yaw = euler[1]

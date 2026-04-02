@@ -8,6 +8,8 @@ require_relative "showcase/props"
 AMBIENT_STRENGTH = 0.75
 
 Engine.start do
+  Engine::Cursor.disable
+
   Rendering::PostProcessingEffect.add(
     Rendering::PostProcessingEffect.ssao(power: 1.4)
   )

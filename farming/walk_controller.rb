@@ -9,7 +9,6 @@ class WalkController < Engine::Component
   MAX_Z = 5.0
 
   def start
-    Engine::Cursor.disable
     euler = game_object.rotation.to_euler
     @pitch = euler[0]
     @yaw = euler[1]

@@ -3,6 +3,8 @@ require_relative "farming/walk_controller"
 require_relative "farming/scenery"
 
 Engine.start do
+  Engine::Cursor.disable
+
   Engine::GameObject.create(
     name: "Camera",
     pos: Vector[0, 0.5, 4],
