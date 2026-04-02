@@ -1,17 +1,4 @@
 module Props
-  def self.colormap
-    @colormap ||= begin
-      # default: UV-mapped models using a shared colour palette texture
-      mat = Engine::Material.create(shader: Engine::Shader.default)
-      mat.set_vec3("baseColour", Vector[1, 1, 1])
-      mat.set_texture("image", Engine::Texture.for("assets/textures/colormap.png"))
-      mat.set_float("ambientStrength", AMBIENT_STRENGTH)
-      mat.set_float("specularStrength", 0.1)
-      mat.set_float("roughness", 1.0)
-      mat
-    end
-  end
-
   def self.place(category, name, pos, rotation: Vector[0, 0, 0], scale: Vector[1, 1, 1], components: [])
     Engine::GameObject.create(
       name: name,
@@ -140,6 +127,21 @@ module Props
             colour: colour * 0.08
           )
         ])
+    end
+  end
+
+  # -- Materials --
+
+  def self.colormap
+    @colormap ||= begin
+      # default: UV-mapped models using a shared colour palette texture
+      mat = Engine::Material.create(shader: Engine::Shader.default)
+      mat.set_vec3("baseColour", Vector[1, 1, 1])
+      mat.set_texture("image", Engine::Texture.for("assets/textures/colormap.png"))
+      mat.set_float("ambientStrength", AMBIENT_STRENGTH)
+      mat.set_float("specularStrength", 0.1)
+      mat.set_float("roughness", 1.0)
+      mat
     end
   end
 end

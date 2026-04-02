@@ -1,16 +1,4 @@
 module Scenery
-  def self.wall_material
-    @wall_material ||= begin
-      # default: plain coloured surface, no texture
-      mat = Engine::Material.create(shader: Engine::Shader.default)
-      mat.set_vec3("baseColour", Vector[0.6, 0.15, 0.15])
-      mat.set_float("ambientStrength", AMBIENT_STRENGTH)
-      mat.set_float("specularStrength", 0.1)
-      mat.set_float("roughness", 1.0)
-      mat
-    end
-  end
-
   def self.create
     Rendering::RenderPipeline.set_skybox_colors(
       ground: Vector[0.1, 0.1, 0.3],
@@ -68,5 +56,19 @@ module Scenery
       scale: Vector[30, 0.3, 5],
       material: wall_material
     )
+  end
+
+  # -- Materials --
+
+  def self.wall_material
+    @wall_material ||= begin
+      # default: plain coloured surface, no texture
+      mat = Engine::Material.create(shader: Engine::Shader.default)
+      mat.set_vec3("baseColour", Vector[0.6, 0.15, 0.15])
+      mat.set_float("ambientStrength", AMBIENT_STRENGTH)
+      mat.set_float("specularStrength", 0.1)
+      mat.set_float("roughness", 1.0)
+      mat
+    end
   end
 end
