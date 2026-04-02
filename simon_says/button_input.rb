@@ -1,4 +1,4 @@
-class ClickableSphere < Engine::Component
+class ButtonInput < Engine::Component
   DIM_MULTIPLIER = 0.3
   LIT_MULTIPLIER = 3.0
   HOVER_RADIUS = 0.5
@@ -14,10 +14,7 @@ class ClickableSphere < Engine::Component
     return set_brightness(DIM_MULTIPLIER) unless mouse_pos
 
     world_pos = screen_to_world(mouse_pos)
-    dist = Math.sqrt(
-      (world_pos[0] - game_object.pos[0]) ** 2 +
-      (world_pos[1] - game_object.pos[1]) ** 2
-    )
+    dist = (world_pos - game_object.pos).magnitude
 
     set_brightness(dist < HOVER_RADIUS ? LIT_MULTIPLIER : DIM_MULTIPLIER)
   end

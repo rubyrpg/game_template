@@ -1,5 +1,5 @@
 require "ruby_rpg"
-require_relative "simon_says/clickable_sphere"
+require_relative "simon_says/button_input"
 require_relative "simon_says/score_text"
 require_relative "simon_says/colour_button"
 require_relative "simon_says/scene"
