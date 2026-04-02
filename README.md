@@ -17,7 +17,7 @@ Pick a template and run it:
 bundle exec ruby showcase.rb
 bundle exec ruby simon_says.rb
 bundle exec ruby farming.rb
-bundle exec ruby car_track.rb
+bundle exec ruby asteroids.rb
 ```
 
 Press **Escape** to quit. Use **WASD** to move, **mouse** to look, **Q/E** for up/down, **Shift** to sprint.
@@ -27,15 +27,15 @@ Press **Escape** to quit. Use **WASD** to move, **mouse** to look, **Q/E** for u
 | Template | Description |
 |----------|-------------|
 | **Showcase** | Demonstrates engine features: lighting, post-processing, models |
-| **Simon Says** | Memory/pattern game |
-| **Farming** | Fields, crops, and plants |
-| **Car Track** | Racing/driving |
+| **Simon Says** | Memory/pattern game with coloured spheres |
+| **Farming** | Fields, crops, animals, and plants |
+| **Asteroids** | 2D sprite-based asteroids scene |
 
 ## Project Structure
 
 ```
-showcase.rb / simon_says.rb / farming.rb / car_track.rb   # entry points
-showcase/ simon_says/ farming/ car_track/                  # per-game code
+showcase.rb / simon_says.rb / farming.rb / asteroids.rb    # entry points
+showcase/ simon_says/ farming/ asteroids/                   # per-game code
 components/                                                # shared components
 assets/
   animals/       buildings/      geometry/       indicators/

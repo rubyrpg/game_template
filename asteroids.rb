@@ -1,5 +1,6 @@
 require "ruby_rpg"
-require_relative "components/camera_controller"
+require_relative "asteroids/ship_engine"
+require_relative "asteroids/wrap_around"
 
 Engine.start do
   Rendering::RenderPipeline.set_skybox_colors(
@@ -36,8 +37,24 @@ Engine.start do
     ]
   )
 
+  # Player ship — arrow keys / WASD to move, wraps around screen edges
+  ship_material = Engine::Material.create(shader: Engine::Shader.instanced_sprite)
+  ship_material.set_texture("image", Engine::Texture.for("assets/Player.png"))
+  ship_material.set_vec4("spriteColor", [1, 1, 1, 1])
+
+  Engine::GameObject.create(
+    name: "Ship",
+    pos: Vector[Engine::Window.framebuffer_width / 2, Engine::Window.framebuffer_height / 2, 0],
+    scale: Vector[50, 50, 1],
+    components: [
+      ShipEngine.create,
+      WrapAround.new,
+      Engine::Components::SpriteRenderer.create(material: ship_material)
+    ]
+  )
+
+  # Example sprites — asteroid variants, shield, explosion, and a square
   sprites = [
-    "assets/Player.png",
     "assets/Asteroid_01.png",
     "assets/Asteroid_02.png",
     "assets/Asteroid_03.png",
@@ -59,7 +76,7 @@ Engine.start do
   spacing = 100
   total_width = (sprites.length - 1) * spacing
   start_x = (Engine::Window.framebuffer_width - total_width) / 2
-  center_y = Engine::Window.framebuffer_height / 2
+  center_y = Engine::Window.framebuffer_height / 4
 
   sprites.each_with_index do |sprite_path, i|
     material = Engine::Material.create(shader: Engine::Shader.instanced_sprite)
