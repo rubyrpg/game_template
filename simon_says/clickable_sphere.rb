@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ClickableSphere < Engine::Component
   DIM_MULTIPLIER = 0.3
   LIT_MULTIPLIER = 3.0

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Asteroids
   module Asteroid
     def self.create(pos, variant: 1)

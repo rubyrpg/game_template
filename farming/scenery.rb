@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Farming
   module Scenery
     def self.nature_mat

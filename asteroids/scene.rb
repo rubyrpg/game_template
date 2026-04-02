@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Asteroids
   module Scene
     def self.create

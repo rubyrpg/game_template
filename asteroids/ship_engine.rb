@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ShipEngine < Engine::Component
   ACCELERATION = 400
   DECELERATION = 400

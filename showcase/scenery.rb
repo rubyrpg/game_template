@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Scenery
   def self.wall_material
     @wall_material ||= begin

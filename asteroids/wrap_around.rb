@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class WrapAround < Engine::Component
   def update(delta_time)
     if game_object.x > Engine::Window.framebuffer_width

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class WalkController < Engine::Component
   ROTATION_SPEED = 60
   MOVE_SPEED = 2

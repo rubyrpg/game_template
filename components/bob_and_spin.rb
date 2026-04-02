@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class BobAndSpin < Engine::Component
   SPIN_SPEED = 120
   BOB_SPEED = 2
