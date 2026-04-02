@@ -5,8 +5,6 @@ require_relative "components/bob_and_spin"
 require_relative "showcase/scenery"
 require_relative "showcase/props"
 
-AMBIENT_STRENGTH = 0.75
-
 Engine.start do
   Engine::Cursor.disable
 
@@ -28,6 +26,7 @@ Engine.start do
   Rendering::PostProcessingEffect.add(
     Rendering::PostProcessingEffect.bloom(blur_scale: 3.0)
   )
+
   Engine::GameObject.create(
     name: "Camera",
     pos: Vector[0, 1, 8],
@@ -37,11 +36,10 @@ Engine.start do
       CameraController.create
     ])
 
-  Scenery.create
-  Props.create_platform
-  Props.create_light_display
-  Props.create_shapes_gallery
-  Props.create_building
-  Props.create_bloom_spheres
-
+  Showcase::Scenery.create
+  Showcase::Props.create_platform
+  Showcase::Props.create_light_display
+  Showcase::Props.create_shapes_gallery
+  Showcase::Props.create_building
+  Showcase::Props.create_bloom_spheres
 end
