@@ -1,6 +1,7 @@
 module SimonSays
   module ColourButton
     def self.create(pos, colour)
+      # colour: flat uniform colour, no texture needed
       mat = Engine::Material.create(shader: Engine::Shader.colour)
       mat.set_vec3("colour", colour * ButtonInput::DIM_MULTIPLIER)
       mat.set_float("roughness", 1.0)

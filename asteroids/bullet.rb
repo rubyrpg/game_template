@@ -1,6 +1,7 @@
 module Asteroids
   module Bullet
     def self.create(pos)
+      # instanced_sprite: renders 2D sprites from a texture atlas
       material = Engine::Material.create(shader: Engine::Shader.instanced_sprite)
       material.set_texture("image", Engine::Texture.for("assets/Square.png"))
       material.set_vec4("spriteColor", [1, 1, 1, 1])

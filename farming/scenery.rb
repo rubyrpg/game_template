@@ -2,6 +2,7 @@ module Farming
   module Scenery
     def self.nature_mat
       @nature_mat ||= begin
+        # vertex_lit: these models use per-vertex colours baked into the mesh, not UV textures
         mat = Engine::Material.create(shader: Engine::Shader.vertex_lit)
         mat.set_float("roughness", 1.0)
         mat.set_float("diffuseStrength", 0.5)
@@ -13,6 +14,7 @@ module Farming
 
     def self.vehicle_mat
       @vehicle_mat ||= begin
+        # default: UV-mapped model with a colour texture
         mat = Engine::Material.create(shader: Engine::Shader.default)
         mat.set_vec3("baseColour", Vector[1, 1, 1])
         mat.set_texture("image", Engine::Texture.for("assets/textures/car-colormap.png"))
@@ -25,6 +27,7 @@ module Farming
 
     def self.prototype_mat
       @prototype_mat ||= begin
+        # default: UV-mapped model with a colour texture
         mat = Engine::Material.create(shader: Engine::Shader.default)
         mat.set_vec3("baseColour", Vector[1, 1, 1])
         mat.set_texture("image", Engine::Texture.for("assets/textures/colormap.png"))
@@ -37,6 +40,7 @@ module Farming
 
     def self.field_mat
       @field_mat ||= begin
+        # vertex_lit: dirt tiles use per-vertex colours, not UV textures
         mat = Engine::Material.create(shader: Engine::Shader.vertex_lit)
         mat.set_float("roughness", 0.15)
         mat.set_float("diffuseStrength", 0.5)
@@ -48,6 +52,7 @@ module Farming
 
     def self.crop_mat
       @crop_mat ||= begin
+        # vertex_lit: crop models use per-vertex colours, not UV textures
         mat = Engine::Material.create(shader: Engine::Shader.vertex_lit)
         mat.set_float("roughness", 0.8)
         mat.set_float("diffuseStrength", 0.5)

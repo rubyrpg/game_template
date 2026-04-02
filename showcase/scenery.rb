@@ -1,6 +1,7 @@
 module Scenery
   def self.wall_material
     @wall_material ||= begin
+      # default: plain coloured surface, no texture
       mat = Engine::Material.create(shader: Engine::Shader.default)
       mat.set_vec3("baseColour", Vector[0.6, 0.15, 0.15])
       mat.set_float("ambientStrength", AMBIENT_STRENGTH)
@@ -31,6 +32,7 @@ module Scenery
         )
       ])
 
+    # default: UV-mapped surface with a normal map for tile detail
     ground_material = Engine::Material.create(shader: Engine::Shader.default)
     ground_material.set_vec3("baseColour", Vector[0.1, 0.1, 0.3])
     ground_material.set_texture("normalMap", Engine::Texture.for("assets/textures/tiles_normal.png"))

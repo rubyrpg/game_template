@@ -1,6 +1,7 @@
 module Props
   def self.colormap
     @colormap ||= begin
+      # default: UV-mapped models using a shared colour palette texture
       mat = Engine::Material.create(shader: Engine::Shader.default)
       mat.set_vec3("baseColour", Vector[1, 1, 1])
       mat.set_texture("image", Engine::Texture.for("assets/textures/colormap.png"))
@@ -27,6 +28,7 @@ module Props
   end
 
   def self.create_platform
+    # default: plain coloured surface, no texture
     platform_material = Engine::Material.create(shader: Engine::Shader.default)
     platform_material.set_vec3("baseColour", Vector[0.75, 0.75, 0.75])
     platform_material.set_float("ambientStrength", AMBIENT_STRENGTH)
@@ -117,6 +119,7 @@ module Props
       Vector[1.0, 1.0, 1.0],    # white
     ]
     hdr_colours.each_with_index do |colour, i|
+      # colour: flat HDR colour, pumped above 1.0 so bloom post-processing makes them glow
       mat = Engine::Material.create(shader: Engine::Shader.colour)
       mat.set_vec3("colour", colour * 4.5)
       mat.set_float("roughness", 1.0)
