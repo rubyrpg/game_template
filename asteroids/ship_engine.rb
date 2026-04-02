@@ -11,7 +11,7 @@ class ShipEngine < Engine::Component
   end
 
   def update(delta_time)
-    direction = game_object.local_to_world_direction(Vector[0, 1, 0]).normalize
+    direction = game_object.up.normalize
     @speed += direction * acceleration * delta_time
     clamp_speed
     game_object.pos += @speed * delta_time
