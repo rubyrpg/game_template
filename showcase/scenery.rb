@@ -1,14 +1,5 @@
 module Scenery
   def self.create
-    Rendering::RenderPipeline.set_skybox_colors(
-      ground: Vector[0.1, 0.1, 0.3],
-      horizon: Vector[0.7, 0.8, 0.9],
-      sky: Vector[0.3, 0.5, 0.8],
-      ground_y: -0.1,
-      horizon_y: 0.0,
-      sky_y: 0.3
-    )
-
     Engine::GameObject.create(
       name: "Direction Light",
       rotation: Vector[-45, -40, 0],

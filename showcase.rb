@@ -10,6 +10,15 @@ AMBIENT_STRENGTH = 0.75
 Engine.start do
   Engine::Cursor.disable
 
+  Rendering::RenderPipeline.set_skybox_colors(
+    ground: Vector[0.1, 0.1, 0.3],
+    horizon: Vector[0.7, 0.8, 0.9],
+    sky: Vector[0.3, 0.5, 0.8],
+    ground_y: -0.1,
+    horizon_y: 0.0,
+    sky_y: 0.3
+  )
+
   Rendering::PostProcessingEffect.add(
     Rendering::PostProcessingEffect.ssao(power: 1.4)
   )
