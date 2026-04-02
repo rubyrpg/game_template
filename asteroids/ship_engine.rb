@@ -7,14 +7,14 @@ class ShipEngine < Engine::Component
   TURNING_SPEED = 300
 
   def awake
-    @speed ||= Vector[0, 0, 0]
+    @velocity ||= Vector[0, 0, 0]
   end
 
   def update(delta_time)
     direction = game_object.up.normalize
-    @speed += direction * acceleration * delta_time
+    @velocity += direction * acceleration * delta_time
     clamp_speed
-    game_object.pos += @speed * delta_time
+    game_object.pos += @velocity * delta_time
 
     game_object.rotation *= Engine::Quaternion.from_euler(Vector[0, 0, torque * delta_time])
   end
@@ -29,8 +29,8 @@ class ShipEngine < Engine::Component
   end
 
   def clamp_speed
-    if @speed.magnitude > MAX_SPEED
-      @speed = @speed / @speed.magnitude * MAX_SPEED
+    if @velocity.magnitude > MAX_SPEED
+      @velocity = @velocity / @velocity.magnitude * MAX_SPEED
     end
   end
 
