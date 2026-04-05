@@ -21,7 +21,12 @@ Engine.start do
     Rendering::PostProcessingEffect.ssao(power: 1.4)
   )
   Rendering::PostProcessingEffect.add(
-    Rendering::PostProcessingEffect.ssr(max_ray_distance: 15.0, ray_offset: 0.05, thickness: 1.0)
+    Rendering::PostProcessingEffect.ssr(
+      max_ray_distance: 15.0,
+      ray_offset: 0.05,
+      thickness: 0.25
+
+    )
   )
   Rendering::PostProcessingEffect.add(
     Rendering::PostProcessingEffect.bloom(blur_scale: 3.0)
