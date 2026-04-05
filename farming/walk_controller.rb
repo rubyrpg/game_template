@@ -1,5 +1,5 @@
 class WalkController < Engine::Component
-  ROTATION_SPEED = 60
+  ROTATION_SPEED = 0.2
   MOVE_SPEED = 2
   MAX_PITCH = 89
 
@@ -18,8 +18,8 @@ class WalkController < Engine::Component
   def update(delta_time)
     mouse_delta = Engine::Input.mouse_delta
 
-    @yaw += mouse_delta[0] * ROTATION_SPEED * delta_time
-    @pitch += mouse_delta[1] * ROTATION_SPEED * delta_time
+    @yaw += mouse_delta[0] * ROTATION_SPEED
+    @pitch += mouse_delta[1] * ROTATION_SPEED
     @pitch = @pitch.clamp(-MAX_PITCH, MAX_PITCH)
 
     game_object.rotation = Engine::Quaternion.from_euler(Vector[@pitch, @yaw, 0])
